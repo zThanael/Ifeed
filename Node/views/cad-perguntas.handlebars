@@ -41,24 +41,21 @@
             cursor: pointer;
         }
     </style>
-    <script>
-        function confirmasenha(){
-            var senha = document.getElementById('senha').value;
-            var confisenha = document.getElementById('senhaconfirma').value;
-
-            if(senha != confisenha){
-                alert("As senhas não conferem!");
-            }
-        }
-    </script>
 </head>
 <body>
     <div>
-        <form action="/addEmpresa" method='POST'>
+        <form action="/addPergunta" method='POST'>
 
         <h1>Cadastro</h1>
-        <input type="text" placeholder="Nome" name="name" id='category' required>
+        <input type="text" placeholder="Pergunta" name="pergunta" id='pergunta' required>
         <br><br>
+        <select name="type" id="type">  
+            {{#each tipo_pergunta}}
+            <option value={{dataValues.id}}>{{dataValues.tipo}}</option>
+            {{/each}}
+
+        </select>
+
         {{!-- <input type="text" placeholder="Sigla" name="nome_fantasia" id="nome_fantasia" required>
         <br><br>
         <input type="text" placeholder="CNPJ" name="cnpj" id ='cnpj' required>
@@ -67,7 +64,7 @@
         <br><br> --}}
         <!-- <input type="password" placeholder="Confirme a senha" name="senhaconfirma" id="senhaconfirma" required>
         <br><br> --> 
-        <input type="submit" onclick="confirmasenha()">
+        <input type="submit">
         
         </form>
     </div>

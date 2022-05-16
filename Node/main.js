@@ -37,8 +37,12 @@
 const express = require('express')
 const app = express()
 const handlebars = require('express-handlebars')
-const Empresa=require('./models/Empresa')
 
+// Tabelas do banco
+const Empresa=require('./models/Empresa')
+const Categoria=require('./models/Categoria')
+//const Pergunta=require('./models/Pergunta')
+const Tipo_pergunta=require('./models/Tipo_pergunta')
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -52,12 +56,12 @@ app.get('/', function (req, res) {
     res.send('Hello World!');
 });
     
+// Cadastros
+
+// Empresas
 app.get('/cadastro', function (req, res) {
     res.render('cad-empresas',{layout:false});
 });
-
-
-
 
 app.post('/addEmpresa',function(req,res){
     Empresa.create({
@@ -70,8 +74,48 @@ app.post('/addEmpresa',function(req,res){
     }).catch(function(erro){
       res.send("Aluno não cadastrado"+erro)
     })
-
 })
+
+
+// Categorias
+
+app.get('/cadastro_categoria', function (req, res) {
+    res.render('cad-categorias',{layout:false});
+});
+
+app.post('/addCategoria',function(req,res){
+    Categoria.create({
+        categoria: req.body.categoria,
+    }).then(function(){
+      res.send("Categoria Cadastrada")
+    }).catch(function(erro){
+      res.send("Categoria não cadastrada"+erro)
+    })
+})
+
+// Perguntas
+
+app.get('/cadastro_pergunta', function (req, res) {
+    Tipo_pergunta.findAll({
+        tipo_pergunta: ['tipo']
+    }).then(function(tipo_pergunta){
+        res.render('cad-perguntas',{layout:false,tipo_pergunta:tipo_pergunta})
+    })
+});
+
+app.post('/addPergunta',function(req,res){
+//     Pergunta.create({
+//         id_tipo_categoria: req.body.type,
+//     }).then(function(){
+//       res.send("Categoria Cadastrada")
+//     }).catch(function(erro){
+//       res.send("Categoria não cadastrada"+erro)
+//     })
+    console.log(req.body.type)
+})
+
+
+
 
 app.get('/empresas', function (req, res){
     Empresa.findAll({
